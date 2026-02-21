@@ -1701,45 +1701,28 @@
       <div class="cta-inner">
         <div class="form-card">
           <h3>Заявка на созвон</h3>
-          <span class="form-label">Какие услуги вас интересуют?</span>
-          <div class="services-list">
-            <label class="service-check"
-              ><input type="checkbox" /> Отделка</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Строительство</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Фундамент</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Каркасы</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Монолиты</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Монтаж систем</label
-            >
-          </div>
-          <span class="form-label">Укажите ваше имя</span>
-          <input type="text" class="form-input" placeholder="Имя" />
-          <span class="form-label">Укажите ваш номер телефона</span>
-          <input
-            type="tel"
-            class="form-input"
-            placeholder="+7 (___) ___-__-__"
-            style="margin-bottom: 28px"
-          />
-          <button
-            class="btn-primary"
-            style="width: 100%; justify-content: center"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-            Отправить заявку
-          </button>
+          <form id="cta-form-gallery" class="cta-form" action="https://formspree.io/f/xzdajdwb" method="POST">
+        <input type="hidden" name="_subject" value="Новая заявка с сайта АлтрейдПроект" />
+        <span class="form-label">Какие услуги вас интересуют?</span>
+        <div class="services-list">
+          <label class="service-check"><input type="checkbox" name="services" value="Отделка" /> Отделка</label>
+          <label class="service-check"><input type="checkbox" name="services" value="Строительство" /> Строительство</label>
+          <label class="service-check"><input type="checkbox" name="services" value="Фундамент" /> Фундамент</label>
+          <label class="service-check"><input type="checkbox" name="services" value="Каркасы" /> Каркасы</label>
+          <label class="service-check"><input type="checkbox" name="services" value="Монолиты" /> Монолиты</label>
+          <label class="service-check"><input type="checkbox" name="services" value="Монтаж систем" /> Монтаж систем</label>
+        </div>
+        <span class="form-label">Укажите ваше имя</span>
+        <input type="text" name="name" class="form-input" placeholder="Имя" required />
+        <span class="form-label">Укажите ваш номер телефона</span>
+        <input type="tel" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" style="margin-bottom:28px" required />
+        <button type="submit" class="cta-form-btn" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--accent);color:var(--primary);padding:16px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background 0.25s,transform 0.2s;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          <span class="btn-text">Отправить заявку</span>
+        </button>
+        <div class="form-success" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.4);color:#4caf50;font-weight:600;text-align:center;font-size:15px;">✓ Заявка отправлена! Мы свяжемся с вами в ближайшее время.</div>
+        <div class="form-error" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(244,67,54,0.15);border:1px solid rgba(244,67,54,0.4);color:#f44336;font-weight:600;text-align:center;font-size:15px;">Ошибка отправки. Попробуйте ещё раз или позвоните нам.</div>
+      </form>
         </div>
         <div class="cta-right">
           <h3>Позвоните или напишите нам</h3>
@@ -2003,6 +1986,34 @@
         el.style.overflow = "hidden";
         el.innerHTML = "";
         el.appendChild(img);
+      });
+
+      // Form submission
+      document.querySelectorAll('.cta-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var btn = form.querySelector('.cta-form-btn');
+          var btnText = form.querySelector('.btn-text');
+          var success = form.querySelector('.form-success');
+          var error = form.querySelector('.form-error');
+          success.style.display = 'none';
+          error.style.display = 'none';
+          btn.disabled = true;
+          if (btnText) btnText.textContent = 'Отправка...';
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          }).then(function(r) {
+            if (r.ok) { success.style.display = 'block'; form.reset(); }
+            else { error.style.display = 'block'; }
+          }).catch(function() {
+            error.style.display = 'block';
+          }).finally(function() {
+            btn.disabled = false;
+            if (btnText) btnText.textContent = 'Отправить заявку';
+          });
+        });
       });
     </script>
   </body>
