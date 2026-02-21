@@ -11,11 +11,11 @@
     />
     <style>
       :root {
-        --primary: #1a1a2e;
+        --primary: #1a1a1a;
         --accent: #c8973a;
         --accent2: #e8b45a;
-        --dark: #111118;
-        --gray: #8a8a9a;
+        --dark: #111111;
+        --gray: #8a8a8a;
         --section-bg: #f8f6f1;
       }
 
@@ -41,7 +41,7 @@
         left: 0;
         right: 0;
         z-index: 100;
-        background: rgba(26, 26, 46, 0.97);
+        background: rgba(26, 26, 26, 0.97);
         backdrop-filter: blur(10px);
         padding: 0 60px;
         display: flex;
@@ -179,9 +179,9 @@
         min-height: 520px;
         background: linear-gradient(
           135deg,
-          #0d0d1a 0%,
-          #1a1a2e 50%,
-          #0f1520 100%
+          #0d0d0d 0%,
+          #1a1a1a 50%,
+          #141414 100%
         );
         position: relative;
         display: flex;
@@ -291,7 +291,7 @@
 
       .banner-content h1 {
         font-family: "Playfair Display", serif;
-        font-size: 52px;
+        font-size: 36px;
         font-weight: 900;
         color: #fff;
         line-height: 1.1;
@@ -390,7 +390,7 @@
       .calc-form-panel {
         background: #fff;
         padding: 48px;
-        box-shadow: 0 4px 40px rgba(26, 26, 46, 0.07);
+        box-shadow: 0 4px 40px rgba(26, 26, 26, 0.07);
         border-top: 4px solid var(--accent);
       }
 
@@ -758,7 +758,7 @@
       /* ─── CTA / FORM ─── */
       .cta-section {
         padding: 100px 60px;
-        background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+        background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
         position: relative;
         overflow: hidden;
       }
@@ -1147,7 +1147,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(10,10,24,0.98);
+  background: rgba(26, 26, 26, 0.98);
   z-index: 150;
   flex-direction: column;
   align-items: center;
@@ -1176,16 +1176,22 @@
   .phone-num { font-size: 14px; }
   .footer-top { padding: 40px 24px 32px !important; gap: 24px !important; }
   .footer-bottom { padding: 14px 24px !important; }
-  .why-us, .we-can, .catalog, .about, .cta-section { padding-left: 24px !important; padding-right: 24px !important; }
+  .cta-section { padding-left: 24px !important; padding-right: 24px !important; }
   .calc-divider { padding-left: 24px !important; padding-right: 24px !important; }
+  .calc-section { padding: 60px 24px !important; }
+  .calc-wrap { gap: 28px !important; }
+  .calc-form-panel { padding: 32px !important; }
+  .result-panel { padding: 28px 24px !important; }
 }
 
 @media (max-width: 768px) {
+  /* Header */
   header { padding: 0 16px !important; height: 60px !important; }
   nav { display: none !important; }
   .header-right { display: none !important; }
   .burger { display: flex !important; }
 
+  /* Hero */
   .hero { height: auto !important; min-height: 100svh !important; align-items: center !important; padding-top: 60px !important; }
   .hero-content { padding: 40px 20px 32px !important; max-width: 100% !important; }
   .hero h1 { font-size: 42px !important; }
@@ -1194,59 +1200,83 @@
   .hero-cta-wrap { position: relative !important; bottom: auto !important; left: auto !important; transform: none !important; padding: 0 20px 48px !important; width: 100% !important; }
   .hero-cta-wrap .btn-primary { width: 100% !important; justify-content: center !important; }
 
-  .why-us, .we-can, .catalog, .about, .cta-section { padding: 48px 16px !important; }
+  /* Page hero */
+  .page-hero { height: 220px !important; padding-bottom: 32px !important; }
+  .page-hero h1 { font-size: 34px !important; }
+
+  /* Common sections */
+  .cta-section { padding: 48px 16px !important; }
   .calc-divider { padding: 24px 16px !important; }
   .calc-divider .label { font-size: 17px !important; }
 
-  .section-title { font-size: 28px !important; }
-  .section-title-line { font-size: 28px !important; }
-  .advantages-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
-  .cards-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  /* CTA form */
+  .cta-headline h2 { font-size: 22px !important; }
+  .cta-headline { margin-bottom: 36px !important; }
+  .cta-inner { grid-template-columns: 1fr !important; gap: 24px !important; max-width: 100% !important; }
+  .form-card { padding: 24px 20px !important; }
+  .services-list { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .service-check { padding: 8px 10px !important; font-size: 13px !important; }
 
-  .we-can-inner { grid-template-columns: 1fr !important; gap: 28px !important; }
-  .we-can-text h2 { font-size: 32px !important; }
-  .we-can-img::before, .we-can-img::after { display: none !important; }
-  .we-can-img .img-placeholder { height: 240px !important; }
-
-  .about-item { grid-template-columns: 1fr !important; gap: 20px !important; padding: 28px 0 !important; }
-  .about-item.reverse { direction: ltr !important; }
-  .about-img { height: 200px !important; border-radius: 12px !important; }
-
-  .cta-headline h2 { font-size: 24px !important; }
-  .cta-inner { grid-template-columns: 1fr !important; gap: 28px !important; }
-  .form-card { padding: 20px !important; }
-  .services-list { grid-template-columns: 1fr !important; }
-
+  /* Footer */
   .footer-top { grid-template-columns: 1fr !important; gap: 28px !important; padding: 32px 16px 24px !important; }
   .footer-bottom { padding: 12px 16px !important; font-size: 11px !important; }
   .footer-map-wrap { height: 180px !important; }
 
-  /* Gallery / Reviews / Calc */
-  .page-hero { height: 240px !important; padding-bottom: 40px !important; }
-  .page-hero h1 { font-size: 38px !important; }
-  .photos-grid, .gallery-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-  .photo-item:first-child { grid-column: span 1 !important; }
-  .calc-section, .calculator-section { padding: 48px 16px !important; }
-  .calc-inner, .calc-wrap { flex-direction: column !important; gap: 24px !important; }
-  .calc-wrap { grid-template-columns: 1fr !important; }
-  .calc-form, .calc-result, .calculator-form, .calculator-result { min-width: unset !important; width: 100% !important; }
-  .calc-form-panel { padding: 24px !important; }
-  .calc-result-panel { min-width: unset !important; width: 100% !important; }
-  .form-row { grid-template-columns: 1fr !important; }
-  .reviews-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
-  .detail-inner, .detailed-inner, .service-detail { flex-direction: column !important; gap: 24px !important; }
-  .service-grid, .detail-grid { grid-template-columns: 1fr !important; }
+  /* ── CALCULATOR SPECIFICS ── */
+  .calc-section { padding: 40px 16px 48px !important; }
 
-  /* Calculator specifics */
-  .calc-header h2 { font-size: 28px !important; }
+  /* Stack form + result panel vertically */
+  .calc-wrap {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    max-width: 100% !important;
+  }
+
+  /* Form panel */
+  .calc-form-panel { padding: 24px 20px !important; }
+  .calc-header { margin-bottom: 36px !important; }
+  .calc-header h2 { font-size: 26px !important; }
+  .calc-field { margin-bottom: 22px !important; }
+
+  /* Pills — wrap nicely */
   .service-pills { gap: 8px !important; }
-  .pill { padding: 8px 14px !important; font-size: 12px !important; }
+  .pill { padding: 8px 12px !important; font-size: 12px !important; }
+
+  /* Check grid — 2 columns on mobile */
+  .check-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .check-item { padding: 9px 10px !important; font-size: 12px !important; gap: 7px !important; }
+
+  /* Result panel — remove sticky, full width */
+  .result-panel {
+    position: static !important;
+    padding: 24px 20px !important;
+    width: 100% !important;
+  }
+  .result-total .t-price { font-size: 36px !important; }
+  .result-total { padding: 18px !important; }
+
+  /* Calc button */
+  .calc-btn { padding: 15px 24px !important; font-size: 14px !important; margin-top: 24px !important; }
 }
 
-@media (max-width: 420px) {
-  .hero h1 { font-size: 34px !important; }
+@media (max-width: 480px) {
+  .page-hero h1 { font-size: 28px !important; }
+  .calc-header h2 { font-size: 22px !important; }
+
+  /* Pills — full width rows on very small screens */
+  .service-pills { flex-direction: column !important; gap: 6px !important; }
+  .pill { width: 100% !important; text-align: center !important; }
+
+  /* Check grid — single column on very small screens */
+  .check-grid { grid-template-columns: 1fr !important; }
+
+  /* Services list — single column */
+  .services-list { grid-template-columns: 1fr !important; }
+
+  .result-total .t-price { font-size: 30px !important; }
+  .calc-form-panel { padding: 20px 16px !important; }
+  .form-card { padding: 20px 16px !important; }
   .btn-primary { padding: 13px 20px !important; font-size: 13px !important; }
-  .page-hero h1 { font-size: 30px !important; }
 }
 
 </style>
@@ -1542,45 +1572,28 @@
       <div class="cta-inner">
         <div class="form-card">
           <h3>Заявка на созвон</h3>
-          <span class="dark-label">Какие услуги вас интересуют?</span>
-          <div class="services-list">
-            <label class="service-check"
-              ><input type="checkbox" /> Отделка</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Строительство</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Фундамент</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Каркасы</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Монолиты</label
-            >
-            <label class="service-check"
-              ><input type="checkbox" /> Монтаж систем</label
-            >
-          </div>
-          <span class="dark-label">Укажите ваше имя</span>
-          <input type="text" class="dark-input" placeholder="Имя" />
-          <span class="dark-label">Укажите ваш номер телефона</span>
-          <input
-            type="tel"
-            class="dark-input"
-            placeholder="+7 (___) ___-__-__"
-            style="margin-bottom: 28px"
-          />
-          <button
-            class="btn-primary"
-            style="width: 100%; justify-content: center"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-            Отправить заявку
-          </button>
+          <form id="cta-form-calc" class="cta-form" action="https://formspree.io/f/XXXXXXXX" method="POST">
+            <input type="hidden" name="_subject" value="Новая заявка с сайта АлтрейдПроект" />
+            <span class="dark-label">Какие услуги вас интересуют?</span>
+            <div class="services-list">
+              <label class="service-check"><input type="checkbox" name="services" value="Отделка" /> Отделка</label>
+              <label class="service-check"><input type="checkbox" name="services" value="Строительство" /> Строительство</label>
+              <label class="service-check"><input type="checkbox" name="services" value="Фундамент" /> Фундамент</label>
+              <label class="service-check"><input type="checkbox" name="services" value="Каркасы" /> Каркасы</label>
+              <label class="service-check"><input type="checkbox" name="services" value="Монолиты" /> Монолиты</label>
+              <label class="service-check"><input type="checkbox" name="services" value="Монтаж систем" /> Монтаж систем</label>
+            </div>
+            <span class="dark-label">Укажите ваше имя</span>
+            <input type="text" name="name" class="dark-input" placeholder="Имя" required />
+            <span class="dark-label">Укажите ваш номер телефона</span>
+            <input type="tel" name="phone" class="dark-input" placeholder="+7 (___) ___-__-__" style="margin-bottom:28px" required />
+            <button type="submit" class="cta-form-btn" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--accent);color:var(--primary);padding:16px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background 0.25s,transform 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              <span class="btn-text">Отправить заявку</span>
+            </button>
+            <div class="form-success" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.4);color:#4caf50;font-weight:600;text-align:center;font-size:15px;">✓ Заявка отправлена! Мы свяжемся с вами в ближайшее время.</div>
+            <div class="form-error" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(244,67,54,0.15);border:1px solid rgba(244,67,54,0.4);color:#f44336;font-weight:600;text-align:center;font-size:15px;">Ошибка отправки. Попробуйте ещё раз или позвоните нам.</div>
+          </form>
         </div>
 
         <div class="cta-right">
@@ -1877,6 +1890,68 @@
       document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
     });
   }
+
+  // Swipe to close (swipe right)
+  (function() {
+    var startX = 0, startY = 0, dragging = false;
+    mobileNav.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      dragging = true;
+    }, { passive: true });
+    mobileNav.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if (Math.abs(dx) > Math.abs(dy) && dx > 0) {
+        mobileNav.style.transform = 'translateX(' + Math.min(dx, 300) + 'px)';
+      }
+    }, { passive: true });
+    mobileNav.addEventListener('touchend', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      var dx = e.changedTouches[0].clientX - startX;
+      if (dx > 80) {
+        mobileNav.style.transform = '';
+        closeMobileNav();
+      } else {
+        mobileNav.style.transform = '';
+      }
+    }, { passive: true });
+  })();
 </script>
-  </body>
+  
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cta-form').forEach(function(form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = form.querySelector('.cta-form-btn');
+        var btnText = form.querySelector('.btn-text');
+        var success = form.querySelector('.form-success');
+        var error = form.querySelector('.form-error');
+        success.style.display = 'none';
+        error.style.display = 'none';
+        btn.disabled = true;
+        if (btnText) btnText.textContent = 'Отправка...';
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(r) {
+          if (r.ok) { success.style.display = 'block'; form.reset(); }
+          else { error.style.display = 'block'; }
+        }).catch(function() {
+          error.style.display = 'block';
+        }).finally(function() {
+          btn.disabled = false;
+          if (btnText) btnText.textContent = 'Отправить заявку';
+        });
+      });
+    });
+  });
+})();
+</script>
+</body>
 </html>
