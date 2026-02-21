@@ -601,8 +601,8 @@
             <span class="form-label">Укажите ваше имя</span>
             <input type="text" name="name" class="form-input" placeholder="Имя" required />
             <span class="form-label">Укажите ваш номер телефона</span>
-            <input type="tel" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" style="margin-bottom:28px" required />
-            <button type="submit" class="cta-form-btn" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--accent);color:var(--primary);padding:16px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background 0.25s,transform 0.2s;">
+            <input type="tel" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" required />
+            <button type="submit" class="cta-form-btn" style="margin-top:28px;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--accent);color:var(--primary);padding:16px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background 0.25s,transform 0.2s;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
               <span class="btn-text">Отправить заявку</span>
             </button>
@@ -977,16 +977,59 @@
   
 <script>
 (function() {
+  var style = document.createElement('style');
+  style.textContent = '.field-error{color:#f44336;font-size:12px;margin-top:4px;margin-bottom:8px;display:none}.input-invalid{border-color:#f44336!important;outline:none;box-shadow:0 0 0 2px rgba(244,67,54,.25)!important}';
+  document.head.appendChild(style);
+
+  function addFieldError(input, msg) {
+    var err = input.parentNode.querySelector('.field-error[data-for="' + input.name + '"]');
+    if (!err) {
+      err = document.createElement('div');
+      err.className = 'field-error';
+      err.setAttribute('data-for', input.name);
+      input.insertAdjacentElement('afterend', err);
+    }
+    err.textContent = msg;
+    err.style.display = msg ? 'block' : 'none';
+    if (msg) input.classList.add('input-invalid');
+    else input.classList.remove('input-invalid');
+  }
+
+  function validateForm(form) {
+    var nameInput = form.querySelector('[name="name"]');
+    var phoneInput = form.querySelector('[name="phone"]');
+    var valid = true;
+    var nameVal = nameInput ? nameInput.value.trim() : '';
+    if (!nameVal || nameVal.length < 2) {
+      addFieldError(nameInput, 'Введите имя (минимум 2 символа)');
+      valid = false;
+    } else {
+      addFieldError(nameInput, '');
+    }
+    var phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+    if (!phoneVal || phoneVal.length < 10) {
+      addFieldError(phoneInput, 'Введите корректный номер телефона');
+      valid = false;
+    } else {
+      addFieldError(phoneInput, '');
+    }
+    return valid;
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.cta-form').forEach(function(form) {
+      form.querySelectorAll('[name="name"],[name="phone"]').forEach(function(inp) {
+        inp.addEventListener('input', function() { addFieldError(inp, ''); });
+      });
       form.addEventListener('submit', function(e) {
         e.preventDefault();
+        if (!validateForm(form)) return;
         var btn = form.querySelector('.cta-form-btn');
         var btnText = form.querySelector('.btn-text');
         var success = form.querySelector('.form-success');
         var error = form.querySelector('.form-error');
         success.style.display = 'none';
-        error.style.display = 'none';
+        if (error) error.style.display = 'none';
         btn.disabled = true;
         if (btnText) btnText.textContent = 'Отправка...';
         fetch(form.action, {
@@ -995,9 +1038,9 @@
           headers: { 'Accept': 'application/json' }
         }).then(function(r) {
           if (r.ok) { success.style.display = 'block'; form.reset(); }
-          else { error.style.display = 'block'; }
+          else if (error) { error.style.display = 'block'; }
         }).catch(function() {
-          error.style.display = 'block';
+          if (error) error.style.display = 'block';
         }).finally(function() {
           btn.disabled = false;
           if (btnText) btnText.textContent = 'Отправить заявку';
