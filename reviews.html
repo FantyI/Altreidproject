@@ -148,7 +148,7 @@
         font-weight: 700;
         text-decoration: none;
         letter-spacing: 1px;
-        margin-bottom: 6px;
+        margin-bottom: 16px;
       }
 
       .social-icons {
@@ -613,6 +613,7 @@
 
       .form-row {
         display: flex;
+        flex-flow: column;
         align-items: center;
         justify-content: space-between;
         gap: 24px;
@@ -1111,12 +1112,37 @@
   .reviews-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
   .detail-inner, .detailed-inner, .service-detail { flex-direction: column !important; gap: 24px !important; }
   .service-grid, .detail-grid { grid-template-columns: 1fr !important; }
+
+  /* Reviews page specifics */
+  .reviews-section { padding: 48px 16px 40px !important; }
+  .section-header h2 { font-size: 28px !important; }
+  .review-card { padding: 20px 16px !important; }
+  .platform-stats-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .platforms-section { padding: 40px 16px !important; }
+
+  /* Banner (hero) mobile */
+  .banner { padding-top: 60px !important; align-items: flex-start !important; }
+  .banner-content { padding: 32px 16px 36px !important; max-width: 100% !important; }
+  .banner-content h1 { font-size: 30px !important; line-height: 1.25 !important; margin-bottom: 14px !important; }
+  .banner-content p { font-size: 14px !important; line-height: 1.6 !important; }
+  .banner-eyebrow { margin-bottom: 16px !important; }
+  .banner-grid { display: none !important; }
+  .banner-stat { display: none !important; }
+  .banner-accent { display: none !important; }
+
+  /* Leave review form mobile */
+  .leave-review { padding: 48px 16px !important; }
+  .review-form-wrap { padding: 28px 20px !important; }
+  .review-form-wrap h2 { font-size: 24px !important; margin-bottom: 24px !important; }
+  .star-rating label { font-size: 28px !important; }
 }
 
 @media (max-width: 420px) {
   .hero h1 { font-size: 34px !important; }
   .btn-primary { padding: 13px 20px !important; font-size: 13px !important; }
   .page-hero h1 { font-size: 30px !important; }
+  .banner-content h1 { font-size: 26px !important; }
+  .review-form-wrap { padding: 20px 16px !important; }
 }
 
 </style>

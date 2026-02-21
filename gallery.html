@@ -375,7 +375,7 @@
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0,0,0,0.95);
     z-index: 999;
     display: flex;
     align-items: center;
@@ -392,26 +392,80 @@
 
   .lightbox-close {
     position: absolute;
-    top: 30px; right: 40px;
+    top: 20px; right: 28px;
     color: rgba(255,255,255,0.7);
-    font-size: 40px;
+    font-size: 44px;
     cursor: pointer;
     line-height: 1;
     transition: color 0.2s;
+    z-index: 10;
+    background: none;
+    border: none;
+    font-family: sans-serif;
   }
 
   .lightbox-close:hover { color: var(--accent); }
 
+  .lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(200,151,58,0.15);
+    border: 1px solid rgba(200,151,58,0.4);
+    color: #fff;
+    font-size: 28px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 10;
+    border-radius: 2px;
+    user-select: none;
+  }
+  .lightbox-arrow:hover { background: var(--accent); color: var(--primary); }
+  .lightbox-arrow.prev { left: 20px; }
+  .lightbox-arrow.next { right: 20px; }
+
   .lightbox-img {
-    width: 800px;
-    height: 560px;
+    max-width: calc(100vw - 160px);
+    max-height: calc(100vh - 100px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
   }
 
-  .lightbox-img svg { width: 100px; height: 100px; opacity: 0.2; fill: white; }
+  .lightbox-img img {
+    max-width: 100%;
+    max-height: calc(100vh - 100px);
+    object-fit: contain;
+    display: block;
+    border: 1px solid rgba(200,151,58,0.2);
+  }
+
+  .lightbox-img .lb-placeholder {
+    width: 600px;
+    height: 420px;
+    background: linear-gradient(135deg, #1a2535, #0d1520);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-img .lb-placeholder svg { width: 80px; height: 80px; opacity: 0.2; fill: white; }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
 
   /* ─── CTA / FORM ─── */
   .cta-section {
@@ -817,14 +871,19 @@
   /* Gallery / Reviews / Calc */
   .page-hero { height: 240px !important; padding-bottom: 40px !important; }
   .page-hero h1 { font-size: 38px !important; }
-  .photos-grid, .gallery-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-  .photo-item:first-child { grid-column: span 1 !important; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .photo-item { height: 140px !important; }
+  .gallery-section { padding: 48px 16px !important; }
+  .gallery-header h2 { font-size: 26px !important; }
   .calc-section, .calculator-section { padding: 48px 16px !important; }
   .calc-inner, .calc-wrap { flex-direction: column !important; gap: 24px !important; }
   .calc-form, .calc-result, .calculator-form, .calculator-result { min-width: unset !important; width: 100% !important; }
   .reviews-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
   .detail-inner, .detailed-inner, .service-detail { flex-direction: column !important; gap: 24px !important; }
   .service-grid, .detail-grid { grid-template-columns: 1fr !important; }
+  .lightbox-arrow.prev { left: 8px !important; }
+  .lightbox-arrow.next { right: 8px !important; }
+  .lightbox-img { max-width: calc(100vw - 100px) !important; }
 }
 
 @media (max-width: 420px) {
@@ -999,6 +1058,19 @@
   </div>
 </section>
 
+<!-- ─── LIGHTBOX ─── -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">×</button>
+  <button class="lightbox-arrow prev" id="lbPrev">&#8249;</button>
+  <div class="lightbox-img" id="lbImg">
+    <div class="lb-placeholder">
+      <svg viewBox="0 0 24 24" fill="white"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    </div>
+  </div>
+  <button class="lightbox-arrow next" id="lbNext">&#8250;</button>
+  <div class="lightbox-counter" id="lbCounter"></div>
+</div>
+
 <!-- ─── CTA / FORM ─── -->
 <section class="cta-section" id="contact">
   <div class="cta-headline">
@@ -1150,61 +1222,25 @@
   document.querySelectorAll('.photo-grid').forEach(grid => observer.observe(grid));
 
   // ─── IMAGE LOADER ───
-  // Категория 1: Отделочные работы
   const finishingPhotos = [
-    "img/gallery/living1.webp",
-    "img/gallery/living2.webp",
-    "img/gallery/living3.webp",
-    "img/gallery/living4.webp",
-    "img/gallery/living5.webp",
-    "img/gallery/living6.webp",
-    "img/gallery/living7.webp",
-    "img/gallery/living8.webp",
-    "img/gallery/living9.webp",
-    "img/gallery/living10.webp",
-    "img/gallery/living11.webp",
-    "img/gallery/living12.webp",
-    "img/gallery/living13.webp",
-    "img/gallery/living14.webp",
-    "img/gallery/living15.webp",
+    "img/gallery/living1.webp","img/gallery/living2.webp","img/gallery/living3.webp",
+    "img/gallery/living4.webp","img/gallery/living5.webp","img/gallery/living6.webp",
+    "img/gallery/living7.webp","img/gallery/living8.webp","img/gallery/living9.webp",
+    "img/gallery/living10.webp","img/gallery/living11.webp","img/gallery/living12.webp",
+    "img/gallery/living13.webp","img/gallery/living14.webp","img/gallery/living15.webp",
   ];
-
-  // Категория 2: Фундаменты и монолиты
   const foundationPhotos = [
-    "img/gallery/sport1.webp",
-    "img/gallery/sport2.webp",
-    "img/gallery/sport3.webp",
-    "img/gallery/sport4.webp",
-    "img/gallery/sport5.webp",
-    "img/gallery/sport6.webp",
-    "img/gallery/sport7.webp",
-    "img/gallery/sport8.webp",
-    "img/gallery/sport9.webp",
-    "img/gallery/sport10.webp",
-    "img/gallery/sport11.webp",
-    "img/gallery/sport12.webp",
-    "img/gallery/sport13.webp",
-    "img/gallery/sport14.webp",
-    "img/gallery/sport15.webp",
+    "img/gallery/sport1.webp","img/gallery/sport2.webp","img/gallery/sport3.webp",
+    "img/gallery/sport4.webp","img/gallery/sport5.webp","img/gallery/sport6.webp",
+    "img/gallery/sport7.webp","img/gallery/sport8.webp","img/gallery/sport9.webp",
+    "img/gallery/sport10.webp","img/gallery/sport11.webp","img/gallery/sport12.webp",
+    "img/gallery/sport13.webp","img/gallery/sport14.webp","img/gallery/sport15.webp",
   ];
-
-  // Категория 3: Фасады
   const facadePhotos = [
-    "img/gallery/yard1.webp",
-    "img/gallery/yard2.webp",
-    "img/gallery/yard3.webp",
-    "img/gallery/yard4.webp",
-    "img/gallery/yard5.webp",
-    "img/gallery/yard6.webp",
-    "img/gallery/yard7.webp",
-    "img/gallery/yard8.webp",
-    "img/gallery/yard9.webp",
-    "img/gallery/yard10.webp",
-    "img/gallery/yard11.webp",
-    // "img/gallery/yard12.webp",
-    // "img/gallery/yard13.webp",
-    // "img/gallery/yard14.webp",
-    // "img/gallery/yard15.webp",
+    "img/gallery/yard1.webp","img/gallery/yard2.webp","img/gallery/yard3.webp",
+    "img/gallery/yard4.webp","img/gallery/yard5.webp","img/gallery/yard6.webp",
+    "img/gallery/yard7.webp","img/gallery/yard8.webp","img/gallery/yard9.webp",
+    "img/gallery/yard10.webp","img/gallery/yard11.webp",
   ];
 
   const sections = [
@@ -1212,6 +1248,9 @@
     { id: 'foundations', photos: foundationPhotos },
     { id: 'facades', photos: facadePhotos },
   ];
+
+  // Build allImages list for lightbox navigation
+  const allImages = []; // { src, el }
 
   sections.forEach(({ id, photos }) => {
     const section = document.getElementById(id);
@@ -1222,11 +1261,65 @@
       img.src = url;
       img.alt = '';
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-      // Remove SVG, keep background for loading
       el.innerHTML = '';
       el.style.background = '#1a1a2e';
       el.appendChild(img);
+      const idx = allImages.length;
+      allImages.push({ src: url });
+      const photoItem = el.closest('.photo-item');
+      if (photoItem) {
+        photoItem.dataset.lbIndex = idx;
+      }
     });
+  });
+
+  // ─── LIGHTBOX ───
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCounter = document.getElementById('lbCounter');
+  let currentIdx = 0;
+
+  function showLightbox(idx) {
+    currentIdx = (idx + allImages.length) % allImages.length;
+    const src = allImages[currentIdx].src;
+    lbImg.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.onerror = () => {
+      lbImg.innerHTML = '<div class="lb-placeholder"><svg viewBox="0 0 24 24" fill="white"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
+    };
+    lbImg.appendChild(img);
+    lbCounter.textContent = `${currentIdx + 1} / ${allImages.length}`;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.photo-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const idx = parseInt(item.dataset.lbIndex) || 0;
+      showLightbox(idx);
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); showLightbox(currentIdx - 1); });
+  document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); showLightbox(currentIdx + 1); });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLightbox(currentIdx - 1);
+    if (e.key === 'ArrowRight') showLightbox(currentIdx + 1);
   });
 
   // Burger menu
